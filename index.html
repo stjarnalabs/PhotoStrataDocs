@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PhotoStrata Knowledge Base</title>
+
+        <script defer src="public/alpine.min.js"></script>
+        <script src="public/tailwindcss.min.js"></script>
+
+        <style>
+            ::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #1e293b;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #475569;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #64748b;
+            }
+
+            .glass {
+                background: rgba(30, 41, 59, 0.7);
+                backdrop-filter: blur(12px);
+            }
+            .sidebar-link.active {
+                background-color: #3b82f6;
+                color: white;
+                border-right: 3px solid #60a5fa;
+            }
+        </style>
+    </head>
+    <body
+        class="bg-slate-900 text-slate-200 font-sans antialiased h-screen flex flex-col overflow-hidden"
+        x-data="{
+          currentView: 'doc',
+          activeDoc: 'intro',
+          mobileMenuOpen: false,
+          searchQuery: '',
+
+          // Navigation Data
+          docs: {
+              'intro': { title: 'Introduction', category: 'Getting Started' },
+              'interface': { title: 'Learning the interface', category: 'Getting Started' },
+<!--              'layers': { title: 'Understanding Layers', category: 'Core Concepts' },-->
+<!--              'adjustments': { title: 'Understanding Adjustments', category: 'Core Concepts' },-->
+<!--              'masks': { title: 'Applying Masks', category: 'Core Concepts' },-->
+<!--              'export': { title: 'Exporting Images', category: 'Workflows' }-->
+          }
+      }"
+    >
+        <nav
+            class="h-16 flex-none border-b border-slate-700 glass z-50 relative"
+        >
+            <div
+                class="max-w-screen-2xl mx-auto px-4 h-full flex items-center justify-between"
+            >
+                <div class="flex items-center gap-4">
+                    <button
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="md:hidden p-2 text-slate-400 hover:text-white"
+                    >
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"
+                            ></path>
+                        </svg>
+                    </button>
+
+                    <div
+                        @click="currentView = 'home'"
+                        class="flex items-center gap-2 cursor-pointer group"
+                    >
+                        <span
+                            class="font-semibold text-lg tracking-tight text-white"
+                        >
+                            PhotoStrata
+                        </span>
+                    </div>
+                </div>
+
+                <div class="hidden md:block w-96 relative">
+                    <svg
+                        class="w-4 h-4 absolute left-3 top-3 text-slate-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        ></path>
+                    </svg>
+                    <input
+                        aria-label="Search documentation"
+                        type="text"
+                        placeholder="Search documentation..."
+                        class="w-full bg-slate-800 text-sm rounded-lg pl-10 pr-4 py-2 border border-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition placeholder-slate-500"
+                    />
+                </div>
+            </div>
+        </nav>
+
+        <div class="flex-1 flex overflow-hidden relative">
+            <div
+                x-show="currentView === 'home'"
+                x-transition.opacity
+                class="absolute inset-0 z-10 overflow-y-auto bg-slate-900 w-full"
+            >
+                <div
+                    class="bg-gradient-to-b from-slate-800 to-slate-900 py-20 px-4 text-center border-b border-slate-800"
+                >
+                    <h1 class="text-3xl md:text-5xl font-bold text-white mb-6">
+                        How can we help?
+                    </h1>
+                    <div class="max-w-2xl mx-auto relative group">
+                        <input
+                            aria-label="Search documentation"
+                            type="text"
+                            placeholder="Search for 'Importing', 'Layers', 'Shortcuts'..."
+                            class="w-full text-lg bg-white/10 backdrop-blur border border-slate-600 rounded-xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-2xl"
+                        />
+                        <div
+                            class="absolute right-4 top-4 bg-slate-700 px-2 py-1 rounded text-xs text-slate-400 border border-slate-600"
+                        >
+                            ⌘K
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-6xl mx-auto px-4 py-16">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div
+                            @click="currentView = 'doc'; activeDoc = 'intro'"
+                            class="p-6 bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/50 rounded-2xl cursor-pointer transition hover:bg-slate-800 group"
+                        >
+                            <div
+                                class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition"
+                            >
+                                <svg
+                                    class="w-6 h-6 text-blue-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">
+                                Getting Started
+                            </h3>
+                            <p class="text-slate-400 text-sm mb-4">
+                                Introduction to the interface and features
+                            </p>
+                            <span
+                                class="text-blue-400 text-sm font-medium group-hover:underline"
+                                >Browse articles &rarr;</span
+                            >
+                        </div>
+
+<!--                        <div-->
+<!--                            @click="currentView = 'doc'; activeDoc = 'layers'"-->
+<!--                            class="p-6 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-2xl cursor-pointer transition hover:bg-slate-800 group"-->
+<!--                        >-->
+<!--                            <div-->
+<!--                                class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition"-->
+<!--                            >-->
+<!--                                <svg-->
+<!--                                    class="w-6 h-6 text-purple-400"-->
+<!--                                    fill="none"-->
+<!--                                    stroke="currentColor"-->
+<!--                                    viewBox="0 0 24 24"-->
+<!--                                >-->
+<!--                                    <path-->
+<!--                                        stroke-linecap="round"-->
+<!--                                        stroke-linejoin="round"-->
+<!--                                        stroke-width="2"-->
+<!--                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"-->
+<!--                                    ></path>-->
+<!--                                </svg>-->
+<!--                            </div>-->
+<!--                            <h3 class="text-xl font-semibold text-white mb-2">-->
+<!--                                Layers & Editing-->
+<!--                            </h3>-->
+<!--                            <p class="text-slate-400 text-sm mb-4">-->
+<!--                                Mastering layers, adjustments, and masks.-->
+<!--                            </p>-->
+<!--                            <span-->
+<!--                                class="text-purple-400 text-sm font-medium group-hover:underline"-->
+<!--                                >Browse articles &rarr;</span-->
+<!--                            >-->
+<!--                        </div>-->
+
+<!--                        <div-->
+<!--                            @click="currentView = 'doc'; activeDoc = 'export'"-->
+<!--                            class="p-6 bg-slate-800/50 border border-slate-700/50 hover:border-green-500/50 rounded-2xl cursor-pointer transition hover:bg-slate-800 group"-->
+<!--                        >-->
+<!--                            <div-->
+<!--                                class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition"-->
+<!--                            >-->
+<!--                                <svg-->
+<!--                                    class="w-6 h-6 text-green-400"-->
+<!--                                    fill="none"-->
+<!--                                    stroke="currentColor"-->
+<!--                                    viewBox="0 0 24 24"-->
+<!--                                >-->
+<!--                                    <path-->
+<!--                                        stroke-linecap="round"-->
+<!--                                        stroke-linejoin="round"-->
+<!--                                        stroke-width="2"-->
+<!--                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"-->
+<!--                                    ></path>-->
+<!--                                </svg>-->
+<!--                            </div>-->
+<!--                            <h3 class="text-xl font-semibold text-white mb-2">-->
+<!--                                Export & Workflow-->
+<!--                            </h3>-->
+<!--                            <p class="text-slate-400 text-sm mb-4">-->
+<!--                                Saving projects and exporting images.-->
+<!--                            </p>-->
+<!--                            <span-->
+<!--                                class="text-green-400 text-sm font-medium group-hover:underline"-->
+<!--                                >Browse articles &rarr;</span-->
+<!--                            >-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div
+                x-show="currentView === 'doc'"
+                class="flex w-full h-full relative"
+                x-cloak
+            >
+                <aside
+                    class="w-72 bg-slate-900 border-r border-slate-800 flex-none hidden md:flex flex-col h-full"
+                >
+                    <div class="p-4 border-b border-slate-800">
+                        <button
+                            @click="currentView = 'home'"
+                            class="flex items-center text-slate-400 hover:text-white text-sm transition"
+                        >
+                            <svg
+                                class="w-4 h-4 mr-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 19l-7-7 7-7"
+                                ></path>
+                            </svg>
+                            Back to Home
+                        </button>
+                    </div>
+
+                    <div class="overflow-y-auto flex-1 p-4 space-y-8">
+                        <div>
+                            <h4
+                                class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3"
+                            >
+                                Getting Started
+                            </h4>
+                            <ul class="space-y-1">
+                                <li>
+                                    <a
+                                        @click="activeDoc = 'intro'"
+                                        :class="activeDoc === 'intro' ? 'bg-blue-600/10 text-blue-400 border-l-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'"
+                                        class="block px-3 py-2 text-sm rounded-r-md cursor-pointer transition-all border-l-2 border-transparent"
+                                        >Introduction</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        @click="activeDoc = 'interface'"
+                                        :class="activeDoc === 'interface' ? 'bg-blue-600/10 text-blue-400 border-l-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'"
+                                        class="block px-3 py-2 text-sm rounded-r-md cursor-pointer transition-all border-l-2 border-transparent"
+                                        >Learning the interface</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+
+<!--                        <div>-->
+<!--                            <h4-->
+<!--                                class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3"-->
+<!--                            >-->
+<!--                                Core Editing-->
+<!--                            </h4>-->
+<!--                            <ul class="space-y-1">-->
+<!--                                <li>-->
+<!--                                    <a-->
+<!--                                        @click="activeDoc = 'layers'"-->
+<!--                                        :class="activeDoc === 'layers' ? 'bg-blue-600/10 text-blue-400 border-l-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'"-->
+<!--                                        class="block px-3 py-2 text-sm rounded-r-md cursor-pointer transition-all border-l-2 border-transparent"-->
+<!--                                        >Layer Basics</a-->
+<!--                                    >-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a-->
+<!--                                        @click="activeDoc = 'denoise'"-->
+<!--                                        :class="activeDoc === 'denoise' ? 'bg-blue-600/10 text-blue-400 border-l-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'"-->
+<!--                                        class="block px-3 py-2 text-sm rounded-r-md cursor-pointer transition-all border-l-2 border-transparent"-->
+<!--                                        >Denoise Tools</a-->
+<!--                                    >-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+
+<!--                        <div>-->
+<!--                            <h4-->
+<!--                                class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3"-->
+<!--                            >-->
+<!--                                Workflow-->
+<!--                            </h4>-->
+<!--                            <ul class="space-y-1">-->
+<!--                                <li>-->
+<!--                                    <a-->
+<!--                                        @click="activeDoc = 'export'"-->
+<!--                                        :class="activeDoc === 'export' ? 'bg-blue-600/10 text-blue-400 border-l-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'"-->
+<!--                                        class="block px-3 py-2 text-sm rounded-r-md cursor-pointer transition-all border-l-2 border-transparent"-->
+<!--                                        >Export & Save</a-->
+<!--                                    >-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                    </div>
+                </aside>
+
+                <main
+                    class="flex-1 overflow-y-auto bg-slate-900 w-full relative"
+                >
+                    <div class="max-w-4xl mx-auto px-8 py-12">
+                        <div
+                            class="flex items-center text-sm text-slate-500 mb-6 space-x-2"
+                        >
+                            <span
+                                class="cursor-pointer hover:text-white"
+                                @click="currentView = 'home'"
+                                >Home</span
+                            >
+                            <span>/</span>
+                            <span x-text="docs[activeDoc].category"></span>
+                            <span>/</span>
+                            <span
+                                class="text-blue-400"
+                                x-text="docs[activeDoc].title"
+                            ></span>
+                        </div>
+
+                        <article
+                            class="prose prose-invert prose-slate prose-lg max-w-none"
+                        >
+                            <div x-show="activeDoc === 'intro'">
+                                <h1>Introduction to PhotoStrata</h1>
+                                <p class="lead">
+                                    PhotoStrata is an advanced image editing tool created to help you make fine-tuned edits
+                                    and adjustments to your images that are otherwise not possible in traditional image editors.
+                                </p>
+                                <p>
+                                    Traditional editing flattens your image. PhotoStrata decomposes your
+                                    image into 'Frequencies' — separating texture from shape. This allows you to apply
+                                    separate adjustments to each scale of frequencies, resulting in an overall better
+                                    result.
+                                </p>
+                                <p>
+                                    Applying smoothing to very fine textures often allows you to suppress noise
+                                    without affecting sharp details. Applying color corrections or contrast
+                                    adjustments to coarse layers allow you to achieve these without adding
+                                    color noise to the very fine layers.
+                                </p>
+                                <hr />
+                                <h3>1. What makes PhotoStrata different?</h3>
+                                <p>
+                                    When you open any image in PhotoStrata, our advanced algorithms decompose your image
+                                    into multiple layers based on the size of detail.
+                                </p>
+                                <p>
+                                    For example, imagine your image is a physical terrain map.
+                                </p>
+                                <ul>
+                                    <li>Scale 1 (Smallest): The pebbles, grains of sand, and sharp jagged rocks. In an image, this is where the noise and very sharp details would exist.</li>
+                                    <li>Scale 2–4 (Medium): The boulders and trees. In an image, this is where sharp edges and lines amongst other fine details would exist.</li>
+                                    <li>Scale 5+ (Large): The hills and mountains. In an image, this scale would represent the overall shape and structure of the landscape.</li>
+                                    <li>Residual (Infinite Scale): The curvature of the earth. In an image, this scale contains very broad shapes and colors.</li>
+                                </ul>
+                                <br />
+                                <p>
+                                    The app then allows you to make adjustments, either directly or through masking, to e
+                                    ach of these layers individually. This allows you to modify the fine details and
+                                    structures separately from overall shapes and colors. Ultimately, you end up being
+                                    able to make targeted adjustments without affecting the non-intended parts of the image.
+                                </p>
+                                <h3>
+                                    2. Why are layers generated automatically?
+                                </h3>
+                                <p>
+                                    Imagine your photograph is a piece of music. Standard Editing (Brightness/Contrast)
+                                    is like the Volume Knob. If you turn it up, everything gets louder—the drums, the vocals,
+                                    and the background hiss.
+                                </p>
+                                <p>
+                                    PhotoStrata's Layers are like a Graphic Equalizer.
+                                </p>
+                                <ul>
+                                    <li>
+                                        High Treble: The tiny details (Noise, Grain).
+                                    </li>
+                                    <li>
+                                        Mid-Tones: The medium details (Stars, Craters).
+                                    </li>
+                                    <li>
+                                        Deep Bass: The large structures (Nebulae, Background gradients).
+                                    </li>
+                                </ul>
+                                <p>
+                                    PhotoStrata automatically splits your image into these "musical frequencies" (Scales)
+                                    so you can turn down the "hiss" (Noise) without turning down the "vocals" (Stars).
+                                </p>
+                                <p>
+                                    In traditional editing, pixels are just pixels. The software doesn't know the difference
+                                    between a white pixel in a star and a white pixel in a nebula. PhotoStrata's layers provide
+                                    Structural Awareness.
+                                </p>
+
+                                <h3>3. How do I use these layers?</h3>
+                                <p>
+                                    The following three use cases give you an overview of how you can use the layers in
+                                    PhotoStrata for your own edits.
+                                </p>
+                                <div class="space-y-12 mt-8">
+                                    <div class="bg-slate-800/40 rounded-xl border border-slate-700/50 overflow-hidden">
+                                        <div class="p-6 border-b border-slate-700/50 bg-slate-800/80 flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-sm">A</div>
+                                            <h3 class="text-xl font-semibold text-white m-0">Surgical Denoising <span class="text-slate-400 text-base font-normal">(The "Small" Layers)</span></h3>
+                                        </div>
+                                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div>
+                                                <h4 class="text-red-400 text-sm font-bold uppercase tracking-wider mb-2">The Problem</h4>
+                                                <p class="text-slate-300">In normal apps, "Noise Reduction" blurs the whole image. It kills the noise, but it also kills the sharp edges of your subject.</p>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-green-400 text-sm font-bold uppercase tracking-wider mb-2">The PhotoStrata Way</h4>
+                                                <p class="text-slate-300 mb-2">Noise almost always lives in <strong>Layer 1</strong> (The finest scale). You can delete or blur Layer 1 entirely.</p>
+                                                <div class="bg-slate-900/50 p-3 rounded border-l-2 border-green-500 text-sm text-slate-400 mt-3">
+                                                    <strong>Result:</strong> The noise is gone, but the subject (which lives on Layers 3, 4, and 5) remains perfectly sharp.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-slate-800/40 rounded-xl border border-slate-700/50 overflow-hidden">
+                                        <div class="p-6 border-b border-slate-700/50 bg-slate-800/80 flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm">B</div>
+                                            <h3 class="text-xl font-semibold text-white m-0">Star Reduction <span class="text-slate-400 text-base font-normal">(The "Medium" Layers)</span></h3>
+                                        </div>
+                                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div>
+                                                <h4 class="text-red-400 text-sm font-bold uppercase tracking-wider mb-2">The Problem</h4>
+                                                <p class="text-slate-300">You want to shrink the stars so the nebula stands out. In normal apps, you have to spend hours drawing manual selection masks around every single star.</p>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-green-400 text-sm font-bold uppercase tracking-wider mb-2">The PhotoStrata Way</h4>
+                                                <p class="text-slate-300 mb-2">Stars usually live in <strong>Layers 2 and 3</strong>. You can simply lower the bias/intensity of Layer 2.</p>
+                                                <div class="bg-slate-900/50 p-3 rounded border-l-2 border-green-500 text-sm text-slate-400 mt-3">
+                                                    <strong>Result:</strong> The stars shrink, but the large cloud structures (Layer 4+) and the fine background grain (Layer 1) are untouched.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-slate-800/40 rounded-xl border border-slate-700/50 overflow-hidden">
+                                        <div class="p-6 border-b border-slate-700/50 bg-slate-800/80 flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-400 flex items-center justify-center font-bold text-sm">C</div>
+                                            <h3 class="text-xl font-semibold text-white m-0">Local Contrast <span class="text-slate-400 text-base font-normal">(The "Large" Layers)</span></h3>
+                                        </div>
+                                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            <div>
+                                                <h4 class="text-red-400 text-sm font-bold uppercase tracking-wider mb-2">The Problem</h4>
+                                                <p class="text-slate-300">You want to make the nebula look "punchy" and dramatic. Increasing global contrast usually blows out the stars (makes them pure white circles).</p>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-green-400 text-sm font-bold uppercase tracking-wider mb-2">The PhotoStrata Way</h4>
+                                                <p class="text-slate-300 mb-2">You boost the contrast only on <strong>Layers 4 and 5</strong>.</p>
+                                                <div class="bg-slate-900/50 p-3 rounded border-l-2 border-green-500 text-sm text-slate-400 mt-3">
+                                                    <strong>Result:</strong> The faint gas clouds become dramatic and 3D, but the stars remain small and delicate.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="activeDoc === 'interface'">
+                                <h1>The Main View</h1>
+                                <img src="/screenshots/main-view.jpeg" alt="" />
+                                <p class="lead">
+                                    The main view consists of three key areas:
+                                </p>
+                                <ul>
+                                    <li>The left sidebar where you can find adjustments and masking options</li>
+                                    <li>The canvas view in the middle that shows the image being edited. </li>
+                                    <li>
+                                        The right sidebar that allows managing layers and edits, as well as shows previews
+                                        for the selected layer.
+                                    </li>
+                                </ul>
+                                <p>The most interesting bit is the right sidebar, let's look at it first.</p>
+
+                                <h3>Waveform Scope</h3>
+                                <img src="/screenshots/waveform-scope.jpeg" alt="" />
+                                <p>
+                                    Unlike a standard Histogram, which jumbles all pixels together into one pile, the
+                                    Waveform preserves the Left-to-Right structure of your image.
+                                </p>
+                                <ul>
+                                    <li>
+                                        The X-Axis (Width): Corresponds exactly to the width of your image. The left
+                                        side of the graph shows the left side of your photo; the right side shows the
+                                        right.
+                                    </li>
+                                    <li>
+                                        The Buckets (Columns): Imagine slicing your image into 256 vertical strips (buckets).
+                                        The scope looks at every pixel in that vertical strip and plots its brightness on
+                                        the graph.
+                                    </li>
+                                    <li>
+                                        The Y-Axis (Height): Represents brightness. Stars appear as high peaks; the dark
+                                        sky background appears as a "floor" near the bottom.
+                                    </li>
+                                </ul>
+                                <h4>Interacting With The Waveform</h4>
+                                <p>
+                                    This view allows you to zoom in further to view specific parts of the image in more
+                                    detail. To do so, just drag across the waveform to zoom in on the dragged area.
+                                </p>
+                                <div class="flex flex-row gap-4">
+                                    <div class="basis-1/2">
+                                        <img src="/screenshots/waveform-scope-zoom.jpeg" alt="" />
+                                    </div>
+                                    <div class="basis-1/2">
+                                        <img src="/screenshots/waveform-scope-zoomed.jpeg" alt="" />
+                                    </div>
+                                </div>
+                                <h3>Layer Previews</h3>
+                                <p>
+                                    There are four different layer preview modes to help you visualize even the finest
+                                    of adjustments that you make. You can access them by selecting a layer and then
+                                    clicking preview at the top of right panel.
+                                </p>
+                                <h4>Magnitude Preview</h4>
+                                <p>
+                                    This mode visualizes the image using a logarithmic scale (similar to the astronomical
+                                    Magnitude scale). It compresses the brightness range, allowing you to see even minor
+                                    differences in brightness and detail.
+                                </p>
+                                <img src="/screenshots/layer-preview-magnitude.jpeg" alt="" />
+                                <h4>Threshold Preview</h4>
+                                <p>
+                                    This mode converts the image into pure Black and White to allow you to visualize edges
+                                    and troughs better.
+                                </p>
+                                <img src="/screenshots/layer-preview-threshold.jpeg" alt="" />
+                                <h4>Gray Offset Preview</h4>
+                                <p>
+                                    This mode lifts the black point to a middle gray and aggressively stretches the contrast
+                                    of the darkest pixels. It effectively "over-exposes" the background noise while ignoring
+                                    the bright elements.
+                                </p>
+                                <img src="/screenshots/layer-preview-gray-map.jpeg" alt="" />
+                                <h4>Heatmap Preview</h4>
+                                <p>
+                                    This mode replaces the image's natural color with a "False Color" thermal map. Deep
+                                    blacks are Blue, faint signals are Green, and bright objects are Red/White.
+                                </p>
+                                <img src="/screenshots/layer-preview-heatmap.jpeg" alt="" />
+
+                                <hr class="border-slate-800 my-8" />
+                            </div>
+                        </article>
+
+                        <div
+                            class="mt-20 pt-8 border-t border-slate-800 flex justify-between items-center"
+                        >
+                            <div class="text-slate-500 text-sm">
+                                Last updated: Jan 14, 2026
+                            </div>
+                            <div class="flex gap-4">
+                                <button
+                                    class="text-sm text-slate-400 hover:text-white flex items-center gap-2"
+                                >
+                                    <svg
+                                        class="w-4 h-4"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+                                        ></path>
+                                    </svg>
+                                    Helpful
+                                </button>
+                                <button
+                                    class="text-sm text-slate-400 hover:text-white flex items-center gap-2"
+                                >
+                                    <svg
+                                        class="w-4 h-4"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
+                                        ></path>
+                                    </svg>
+                                    Not Helpful
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
